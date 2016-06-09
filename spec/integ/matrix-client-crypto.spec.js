@@ -210,6 +210,10 @@ describe("MatrixClient crypto", function() {
         });
     }
 
+    function aliVerifiesBobsDevice() {
+        aliClient.setDeviceVerified(bobUserId, bobDeviceId);
+    }
+
     function aliSendsMessage() {
         return sendMessage(aliHttpBackend, aliClient).then(function(content) {
             aliMessages.push(content);
@@ -223,6 +227,7 @@ describe("MatrixClient crypto", function() {
             .then(bobUploadsKeys)
             .then(aliDownloadsKeys)
             .then(aliEnablesEncryption)
+            .then(aliVerifiesBobsDevice)
             .then(aliSendsMessage)
             .catch(utils.failTest).done(done);
     });
@@ -279,6 +284,7 @@ describe("MatrixClient crypto", function() {
             .then(bobUploadsKeys)
             .then(aliDownloadsKeys)
             .then(aliEnablesEncryption)
+            .then(aliVerifiesBobsDevice)
             .then(aliSendsMessage)
             .then(bobRecvMessage)
             .catch(utils.failTest).done(done);
@@ -289,6 +295,7 @@ describe("MatrixClient crypto", function() {
             .then(bobUploadsKeys)
             .then(aliDownloadsKeys)
             .then(aliEnablesEncryption)
+            .then(aliVerifiesBobsDevice)
             .then(aliSendsMessage)
             .then(bobRecvMessage)
             .then(aliSendsMessage)
@@ -339,6 +346,10 @@ describe("MatrixClient crypto", function() {
         });
     }
 
+    function bobVerifiesAlisDevice() {
+        bobClient.setDeviceVerified(aliUserId, aliDeviceId);
+    }
+
     function bobSendsMessage() {
         return sendMessage(bobHttpBackend, bobClient).then(function(content) {
             bobMessages.push(content);
@@ -361,11 +372,13 @@ describe("MatrixClient crypto", function() {
             .then(bobUploadsKeys)
             .then(aliDownloadsKeys)
             .then(aliEnablesEncryption)
+            .then(aliVerifiesBobsDevice)
             .then(aliSendsMessage)
             .then(bobRecvMessage)
             .then(aliUploadsKeys)
             .then(bobDownloadsKeys)
             .then(bobEnablesEncryption)
+            .then(bobVerifiesAlisDevice)
             .then(bobSendsMessage).then(function(ciphertext) {
                 expect(ciphertext.type).toEqual(1);
             }).then(aliRecvMessage)
