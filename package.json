@@ -3,7 +3,7 @@
   "version": "0.9.2",
   "description": "Matrix Client-Server SDK for Javascript",
   "main": "index.js",
-  "typings": "typings/matrix-js-sdk.d.ts",
+  "typings": "typings/index.d.ts",
   "scripts": {
     "test:build": "babel -s -d specbuild spec",
     "test:run": "istanbul cover --report text --report cobertura --config .istanbul.yml -i \"lib/**/*.js\" node_modules/mocha/bin/_mocha -- --recursive specbuild --colors --reporter mocha-jenkins-reporter --reporter-options junit_report_path=reports/test-results.xml",
