@@ -5,43 +5,6 @@
 
 declare namespace Matrix {
 
-    export class MatrixInMemoryStore implements IMatrixStore {
-
-    }
-
-    export class IndexedDBStore implements IMatrixStore {
-
-    }
-
-    export class StubStore implements IMatrixStore {
-        deleteAllData(): Promise<void>;
-        getAccountData(eventType: string): void;
-        getFilter(userId: string, filterId: string): void;
-        getFilterIdByName(filterName: string): void;
-        getGroup(): Group;
-        getGroups(): Group[];
-        getRoom(roomId: string): Room;
-        getRooms(): Room[];
-        getRoomSummaries(): RoomSummary[];
-        getSavedSync(): Promise<any>;
-        getSyncToken(): string;
-        getUser(userId: string): User;
-        getUsers(): User[];
-        removeRoom(roomId: string): void;
-        save(): void;
-        scrollback(room: Room, limit: number): any[];
-        setFilterIdByName(filterName: string, filterId: string): void;
-        setSyncData(syncData: any): Promise<void>;
-        setSyncToken(token: string): void;
-        startup(): Promise<void>;
-        storeAccountDataEvents(events: MatrixEvent[]): void;
-        storeEvents(room: Room, events: MatrixEvent[], token: string, toStart: boolean): void;
-        storeFilter(filter: Filter): void;
-        storeGroup(group: Group): void;
-        storeRoom(room: Room): void;
-        storeUser(user: Models.User): void;
-    }
-
     export class IndexedDBStoreBackend {
 
     }
@@ -69,11 +32,10 @@ declare namespace Matrix {
     }
 
     export class MatrixScheduler implements IMatrixScheduler {
-
-    }
-
-    export class WebStorageSessionStore implements Store.MatrixStore {
-
+        getQueueForEvent(event: Models.MatrixEvent): Models.MatrixEvent[]|null;
+        queueEvent(event: Models.MatrixEvent): Promise<void>;
+        removeEventFromQueue(event: Models.MatrixEvent): boolean;
+        setProcessFunction(fn: MatrixSchedulerProcessFunction): void;
     }
 
     export class ContentRepo {
@@ -89,14 +51,6 @@ declare namespace Matrix {
     }
 
     export class InteractiveAuth {
-
-    }
-
-    export class MemoryCryptoStore implements Crypto.CryptoStore {
-
-    }
-
-    export class IndexedDBCryptoStore implements Crypto.CryptoStore {
 
     }
 
@@ -279,9 +233,139 @@ declare namespace Matrix.Models {
 }
 
 declare namespace Matrix.Crypto {
-    //Crypto
+
+    export interface CryptoStore {
+
+    }
+
+    export class MemoryCryptoStore implements CryptoStore {
+
+    }
+
+    export class IndexedDBCryptoStore implements CryptoStore {
+
+    }
 }
 
 declare namespace Matrix.Store {
+
+    export class MatrixInMemoryStore implements IMatrixStore {
+        //Incomplete
+        deleteAllData(): Promise<void>;
+        getAccountData(eventType: string): void;
+        getFilter(userId: string, filterId: string): void;
+        getFilterIdByName(filterName: string): void;
+        getGroup(): Models.Group;
+        getGroups(): Models.Group[];
+        getRoom(roomId: string): Models.Room;
+        getRooms(): Models.Room[];
+        getRoomSummaries(): Models.RoomSummary[];
+        getSavedSync(): Promise<any>;
+        getSyncToken(): string;
+        getUser(userId: string): Models.User;
+        getUsers(): Models.User[];
+        removeRoom(roomId: string): void;
+        save(): void;
+        scrollback(room: Models.Room, limit: number): any[];
+        setFilterIdByName(filterName: string, filterId: string): void;
+        setSyncData(syncData: any): Promise<void>;
+        setSyncToken(token: string): void;
+        startup(): Promise<void>;
+        storeAccountDataEvents(events: Models.MatrixEvent[]): void;
+        storeEvents(room: Models.Room, events: Models.MatrixEvent[], token: string, toStart: boolean): void;
+        storeFilter(filter: Filter): void;
+        storeGroup(group: Models.Group): void;
+        storeRoom(room: Models.Room): void;
+        storeUser(user: Models.User): void;
+    }
+
+    export class IndexedDBStore implements IMatrixStore {
+        //Incomplete
+        deleteAllData(): Promise<void>;
+        getAccountData(eventType: string): void;
+        getFilter(userId: string, filterId: string): void;
+        getFilterIdByName(filterName: string): void;
+        getGroup(): Models.Group;
+        getGroups(): Models.Group[];
+        getRoom(roomId: string): Models.Room;
+        getRooms(): Models.Room[];
+        getRoomSummaries(): Models.RoomSummary[];
+        getSavedSync(): Promise<any>;
+        getSyncToken(): string;
+        getUser(userId: string): Models.User;
+        getUsers(): Models.User[];
+        removeRoom(roomId: string): void;
+        save(): void;
+        scrollback(room: Models.Room, limit: number): any[];
+        setFilterIdByName(filterName: string, filterId: string): void;
+        setSyncData(syncData: any): Promise<void>;
+        setSyncToken(token: string): void;
+        startup(): Promise<void>;
+        storeAccountDataEvents(events: Models.MatrixEvent[]): void;
+        storeEvents(room: Models.Room, events: Models.MatrixEvent[], token: string, toStart: boolean): void;
+        storeFilter(filter: Filter): void;
+        storeGroup(group: Models.Group): void;
+        storeRoom(room: Models.Room): void;
+        storeUser(user: Models.User): void;
+    }
+
+    export class WebStorageSessionStore implements IMatrixStore {
+        //Incomplete
+        deleteAllData(): Promise<void>;
+        getAccountData(eventType: string): void;
+        getFilter(userId: string, filterId: string): void;
+        getFilterIdByName(filterName: string): void;
+        getGroup(): Models.Group;
+        getGroups(): Models.Group[];
+        getRoom(roomId: string): Models.Room;
+        getRooms(): Models.Room[];
+        getRoomSummaries(): Models.RoomSummary[];
+        getSavedSync(): Promise<any>;
+        getSyncToken(): string;
+        getUser(userId: string): Models.User;
+        getUsers(): Models.User[];
+        removeRoom(roomId: string): void;
+        save(): void;
+        scrollback(room: Models.Room, limit: number): any[];
+        setFilterIdByName(filterName: string, filterId: string): void;
+        setSyncData(syncData: any): Promise<void>;
+        setSyncToken(token: string): void;
+        startup(): Promise<void>;
+        storeAccountDataEvents(events: Models.MatrixEvent[]): void;
+        storeEvents(room: Models.Room, events: Models.MatrixEvent[], token: string, toStart: boolean): void;
+        storeFilter(filter: Filter): void;
+        storeGroup(group: Models.Group): void;
+        storeRoom(room: Models.Room): void;
+        storeUser(user: Models.User): void;
+    }
+
+    export class StubStore implements IMatrixStore {
+        deleteAllData(): Promise<void>;
+        getAccountData(eventType: string): void;
+        getFilter(userId: string, filterId: string): void;
+        getFilterIdByName(filterName: string): void;
+        getGroup(): Models.Group;
+        getGroups(): Models.Group[];
+        getRoom(roomId: string): Models.Room;
+        getRooms(): Models.Room[];
+        getRoomSummaries(): Models.RoomSummary[];
+        getSavedSync(): Promise<any>;
+        getSyncToken(): string;
+        getUser(userId: string): Models.User;
+        getUsers(): Models.User[];
+        removeRoom(roomId: string): void;
+        save(): void;
+        scrollback(room: Models.Room, limit: number): any[];
+        setFilterIdByName(filterName: string, filterId: string): void;
+        setSyncData(syncData: any): Promise<void>;
+        setSyncToken(token: string): void;
+        startup(): Promise<void>;
+        storeAccountDataEvents(events: Models.MatrixEvent[]): void;
+        storeEvents(room: Models.Room, events: Models.MatrixEvent[], token: string, toStart: boolean): void;
+        storeFilter(filter: Filter): void;
+        storeGroup(group: Models.Group): void;
+        storeRoom(room: Models.Room): void;
+        storeUser(user: Models.User): void;
+    }
 
 }
